@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "vitest run"
+    "test": "vitest run",
+    "rules:deploy": "node scripts/deploy-rules.cjs"
   },
   "dependencies": {
     "fast-xml-parser": "^5.12.1",
