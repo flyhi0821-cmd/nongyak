@@ -1,0 +1,184 @@
+import type { Dict } from "./ko";
+
+const en: Dict = {
+  appTitle: "Citrus Spray Log",
+  appTitleParts: ["Citrus ", "Spray", " Log"],
+  appSub: "Spray calendar per orchard · catches repeated ingredients / modes of action · suggests alternatives",
+  meta: { description: "Citrus orchard spray log with mode-of-action rotation checks" },
+
+  common: {
+    orchard: "Orchard",
+    year: "Year",
+    all: "All",
+    allOrchards: "All orchards",
+    loading: "Loading…",
+    save: "Save",
+    delete: "Delete",
+    confirmDelete: "Confirm",
+    failed: "Failed",
+    noProduct: "No product name",
+    noCode: "no code",
+    unknownIng: "Unknown ingredient",
+    weekdays: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+    orchardName: (n) => `Orchard ${n}`,
+    orchardNone: "No orchard",
+    won: (n) => `₩${n.toLocaleString("en-US")}`,
+    count: (n) => `${n}`,
+  },
+
+  theme: { label: "Theme", system: "System", light: "Light", dark: "Dark" },
+  lang: { label: "Language" },
+
+  auth: {
+    signIn: "Sign in with Google",
+    signOut: "Sign out",
+    heroTitle: "Log every spray and stop back-to-back use of the same mode of action",
+    heroBody: "Record sprays for up to six orchards on a calendar. You get an instant warning when the same IRAC/FRAC group is used twice in a row or again within 30 days, plus suggestions for a different group next time.",
+    heroPoints: ["Sign in with Google and see the same log on phone and PC", "Works offline in the orchard and syncs when back online", "한국어 · English"],
+    notConfigured: "Firebase is not configured yet. Put your Firebase web app config in web/.env.local and restart.",
+    error: (m) => `Could not sign in: ${m}`,
+  },
+
+  demo: {
+    start: "Try without signing in",
+    note: "Demo mode starts with sample records and saves only in this browser.",
+    banner: "Demo mode. Records are saved only in this browser. Sign in with Google to sync across devices.",
+    reset: "Reset to samples",
+    exit: "Leave demo",
+  },
+
+  tabs: { log: "Spray log", check: "Resistance check", rec: "Alternatives", settings: "Ingredients & settings" },
+
+  summary: {
+    sprays: (y, scope) => `Sprays in ${y} · ${scope}`,
+    groups: "MoA groups used",
+    bad: "Back-to-back (same MoA)",
+    warn: "Sprays needing care",
+  },
+
+  status: { ok: "OK", warn: "Caution", bad: "Same MoA" },
+
+  cal: {
+    title: "Spray calendar by orchard",
+    hint: "Pick an orchard to open its calendar. Tap a day to see its sprays or log a new one for that day.",
+    monthTitle: (y, m, o) => `${new Date(y, m - 1, 1).toLocaleString("en-US", { month: "long" })} ${y} · ${o}`,
+    prev: "‹ Prev",
+    next: "Next ›",
+    today: "Today",
+    list: "List",
+    calendar: "Calendar",
+    legendNote: "Text in a day is the product name",
+    dayTitle: (m, d, wd, o) => `${wd}, ${new Date(2000, m - 1, 1).toLocaleString("en-US", { month: "short" })} ${d} · ${o}`,
+    recordThisDay: "Log for this day",
+    emptyDay: "No sprays on this day.",
+    emptyYear: (y, o) => `No sprays for ${o} in ${y}. Log the first one below.`,
+    monthGroup: (m, n) => `${new Date(2000, m - 1, 1).toLocaleString("en-US", { month: "long" })} · ${n}`,
+    dayAria: (d, n) => (n ? `${d}, ${n} spray(s)` : d),
+  },
+
+  records: {
+    title: "Spray records",
+    expand: "Show",
+    collapse: "Hide",
+    empty: "No records yet. Pick an orchard, product and target above to log your first spray.",
+    weekday: (wd) => wd,
+  },
+
+  form: {
+    title: "Add spray record",
+    titleFor: (o) => `Add spray record · ${o}`,
+    date: "Spray date",
+    product: "Product name",
+    productPh: "e.g. 산마루, 슈퍼펀치",
+    codeLabel: "Product not in the list. Enter the MoA code printed on the label to enable checks (optional)",
+    codePh: "e.g. 21A",
+    pests: "Targets (select any)",
+    saveBtn: "Save record",
+    unknownProduct: (n) => `'${n}' is not in the list. You can still save it, but add the MoA code to enable rotation checks.`,
+    previewHead: (o) => `Pre-save check (${o})`,
+    previewOk: (o) => `Pre-save check: no overlapping ingredient or MoA for these targets in ${o}.`,
+    missing: (f) => `Please fill in: ${f.join(", ")}.`,
+    missingOrchard: "orchard (buttons above the calendar)",
+    saved: (o, m, d) => `Saved to ${o} on ${m}/${d}.`,
+    saveFailed: (m) => `Could not save: ${m}`,
+    apiFound: (brand, item, codes) => `${brand} → ${item} (MoA ${codes || "not labelled"}) · from the RDA pesticide registry`,
+    apiSafety: (dilut, phi, uses) => [dilut && `Dilution ${dilut}`, phi && `PHI: ${phi}`, uses && `Max uses: ${uses}`].filter(Boolean).join(" · "),
+  },
+
+  issue: {
+    unknown: (p) => `Ingredients of '${p}' are unknown, so it was not checked. Add the MoA code from the label.`,
+    consecutive: (pest, date, prod, g, ing) =>
+      `${pest}: same mode of action ${g} as the previous spray (${date} ${prod}). Do not use ${ing} back to back.`,
+    recent: (pest, days, prod, g) => `${pest}: ${g} was used ${days} days ago (${prod}).`,
+    yearCount: (pest, g, n, max) => `${pest}: spray #${n} of group ${g} in this orchard this year. Keep it to ${max} or fewer per year.`,
+    sameIngredient: (pest, ing, n) => `${pest}: ${ing} used for the ${n}${n === 2 ? "nd" : n === 3 ? "rd" : "th"} time this year.`,
+  },
+
+  check: {
+    title: "MoA sequence by pest and disease",
+    note: "Red: the same MoA group (same number) follows itself on the same target. Yellow: reused within 30 days or used more than twice a year.",
+    resultTitle: "Findings",
+    empty: "No records for this year.",
+    allOk: "No repeated or clustered ingredients or modes of action.",
+  },
+
+  rec: {
+    title: "Other modes of action for the next spray",
+    target: "Target",
+    onlyJ: "Only products in the Jeju guide",
+    last: (scope, pest, date, prod, ings) => `${scope} · last ${pest} spray: ${date} ${prod} (${ings}). Pick from a recommended group below next time.`,
+    none: (y, scope, pest) => `No ${pest} sprays in ${scope} for ${y}. Any group is fine now, but rotate groups afterwards.`,
+    tipPickOrchard: " Pick an orchard at the top to see per-orchard advice.",
+    noCands: (pest, onlyJ) =>
+      `No products confirmed for citrus against ${pest} in the Jeju guide. Check registered products on the RDA Pesticide Safety Information System.` +
+      (onlyJ ? " Untick the box above to see unconfirmed candidates." : ""),
+    st: {
+      unused: "Unused this year · recommended",
+      usable: (d) => `Used ${d} · OK to use`,
+      recent: (n) => `Used ${n} days ago`,
+      lowRisk: "Low resistance risk · supplementary",
+      overused: (n) => `Used ${n}× this year · limit`,
+      avoid: "Used last · avoid",
+    },
+    products: "Products",
+    targets: "Targets",
+    mix: "Mixtures",
+    unknownProduct: "product name unknown",
+    priceUser: "your price",
+    priceEst: "estimate",
+  },
+
+  src: { J: "In Jeju guide", U: "Citrus registration unconfirmed", Jshort: "Guide", Ushort: "Unconfirmed" },
+
+  settings: {
+    priceTitle: "Ingredients, MoA and reference prices",
+    priceNote: "Prices are estimates; there is no official source. Enter what you actually paid and it is shown as 'your price' and used in suggestions.",
+    cols: ["Ingredient", "Code", "Products (guide)", "Status", "Targets", "Pack", "Price (₩)"],
+    resetPrices: "Clear all entered prices",
+    pricesSaved: "Prices saved.",
+    pricesReset: "Entered prices cleared.",
+    mixPrefix: "Mix",
+    sourcesTitle: "Sources and rules",
+    sources: [
+      "In Jeju guide: listed as a citrus control product in the Jeju Agricultural Research & Extension Services citrus pest guide.",
+      "Unconfirmed: not found for citrus in that guide. Always confirm registration before use.",
+      "Check dilution, pre-harvest interval and number of uses on the label and the RDA pesticide safety standards.",
+      "IRAC/FRAC codes follow the international classification. Same number = same group, regardless of letter.",
+      "FRAC M (multi-site) and mineral oil have low resistance risk and are excluded from back-to-back warnings.",
+    ],
+    psisLink: "Open the RDA Pesticide Safety Information System",
+    orchardTitle: "Orchard names",
+    orchardNote: "Give orchards recognisable names; they appear across the log and checks.",
+    orchardLabel: (n) => `Orchard ${n}`,
+    orchardSaved: "Orchard names saved.",
+    importTitle: "Import from the old HTML notebook",
+    importNote: "Paste the text from 'Copy backup' in the old 감귤방제수첩.html. Existing records are skipped.",
+    importBtn: "Import",
+    imported: (n) => `Imported ${n} record(s).`,
+    importBad: "That backup text is not valid.",
+    exportBtn: "Copy my backup",
+    copied: "Copied.",
+  },
+};
+
+export default en;

@@ -1,0 +1,599 @@
+<title>감귤 방제 수첩</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@700&family=IBM+Plex+Sans+KR:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: 한 열 작업 도구. 상단 요약 → 탭(기록·점검·추천·가격). 작용기작 코드는 모노 칩으로 표시 */
+:root{
+  --bg:#f6f7f2; --surface:#ffffff; --line:#dfe3d6; --fg:#1d2419; --muted:#5d6955;
+  --leaf:#2f5a2a; --orange:#e2711d; --orange-soft:#fdebdc;
+  --ok:#2e7d4f; --ok-soft:#e3f2e8; --warn:#a86a00; --warn-soft:#fbf0d6; --bad:#b3261e; --bad-soft:#fbe3e1;
+  --chip:#eef1e8;
+  --f-display:"Gowun Batang",serif; --f-body:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif; --f-mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#141912; --surface:#1c2319; --line:#323b2d; --fg:#e8ecdf; --muted:#9daa93;
+  --leaf:#9fcf8f; --orange:#f39548; --orange-soft:#3a2716;
+  --ok:#7fd19e; --ok-soft:#1d3326; --warn:#e9b94f; --warn-soft:#382d13; --bad:#ff8a80; --bad-soft:#3d1c19; --chip:#262e22; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#141912; --surface:#1c2319; --line:#323b2d; --fg:#e8ecdf; --muted:#9daa93;
+  --leaf:#9fcf8f; --orange:#f39548; --orange-soft:#3a2716;
+  --ok:#7fd19e; --ok-soft:#1d3326; --warn:#e9b94f; --warn-soft:#382d13; --bad:#ff8a80; --bad-soft:#3d1c19; --chip:#262e22; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:15px;line-height:1.55}
+.wrap{max-width:980px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 48px;display:flex;flex-direction:column;gap:18px}
+header{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px}
+h1{font-family:var(--f-display);font-size:30px;margin:0;color:var(--leaf);letter-spacing:-.5px;text-wrap:balance}
+h1 span{color:var(--orange)}
+.sub{color:var(--muted);margin:2px 0 0;font-size:14px}
+h2{font-size:17px;margin:0;text-wrap:balance}
+h3{font-size:15px;margin:0}
+.yearsel{display:flex;gap:8px;align-items:center;color:var(--muted);font-size:14px}
+select,input,textarea{font:inherit;color:var(--fg);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 10px;min-width:0}
+textarea{width:100%;font-family:var(--f-mono);font-size:12px}
+:focus-visible{outline:2px solid var(--orange);outline-offset:2px}
+button{font:inherit;cursor:pointer;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--fg);padding:8px 14px}
+button.primary{background:var(--leaf);border-color:var(--leaf);color:var(--bg);font-weight:600}
+button.ghost{background:transparent}
+button.small{padding:4px 10px;font-size:13px}
+.summary{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.stat b{display:block;font-size:24px;font-variant-numeric:tabular-nums}
+.stat small{color:var(--muted);font-size:12.5px}
+.stat.bad b{color:var(--bad)} .stat.warn b{color:var(--warn)}
+@media (max-width:640px){.summary{grid-template-columns:repeat(2,1fr)}}
+nav{display:flex;gap:4px;border-bottom:1px solid var(--line);overflow-x:auto}
+nav button{border:0;border-bottom:3px solid transparent;border-radius:0;background:none;padding:10px 14px;color:var(--muted);white-space:nowrap;font-weight:500}
+nav button[aria-selected="true"]{color:var(--fg);border-bottom-color:var(--orange)}
+section.panel{display:flex;flex-direction:column;gap:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:640px){.grid2{grid-template-columns:1fr}}
+label.f{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--muted);min-width:0}
+.pestpick{display:flex;flex-wrap:wrap;gap:6px}
+.pestpick label{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:999px;padding:5px 12px;font-size:14px;cursor:pointer;color:var(--fg)}
+.pestpick input{margin:0;accent-color:var(--leaf)}
+.pestpick label:has(input:checked){background:var(--chip);border-color:var(--leaf)}
+.ingrow{display:flex;gap:8px;flex-wrap:wrap}
+.ingrow select{flex:1 1 260px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.code{font-family:var(--f-mono);font-size:12px;background:var(--chip);border-radius:5px;padding:1px 7px;white-space:nowrap}
+.pill{display:inline-flex;align-items:center;gap:4px;font-size:12.5px;font-weight:600;border-radius:999px;padding:2px 9px;white-space:nowrap}
+.pill.ok{background:var(--ok-soft);color:var(--ok)} .pill.warn{background:var(--warn-soft);color:var(--warn)} .pill.bad{background:var(--bad-soft);color:var(--bad)} .pill.info{background:var(--chip);color:var(--muted)}
+.src{font-size:11.5px;font-weight:600;border-radius:5px;padding:1px 6px;white-space:nowrap}.src.J{background:var(--ok-soft);color:var(--ok)}.src.U{background:var(--warn-soft);color:var(--warn)}
+.alerts{display:flex;flex-direction:column;gap:6px}
+.alert{border-radius:8px;padding:8px 12px;font-size:14px;border-left:4px solid}
+.alert.bad{background:var(--bad-soft);border-color:var(--bad)} .alert.warn{background:var(--warn-soft);border-color:var(--warn)} .alert.ok{background:var(--ok-soft);border-color:var(--ok)}
+.rec{display:grid;grid-template-columns:92px 1fr auto;gap:12px;padding:12px 0;border-top:1px solid var(--line);align-items:start}
+.rec:first-child{border-top:0}
+.rec .date{font-variant-numeric:tabular-nums;font-weight:600}
+.rec .date small{display:block;color:var(--muted);font-weight:400}
+.rec .body{display:flex;flex-direction:column;gap:6px;min-width:0}
+@media (max-width:560px){.rec{grid-template-columns:1fr auto}.rec .date{grid-column:1/-1}}
+.muted{color:var(--muted)}
+.note{font-size:13px;color:var(--muted)}
+.banner{background:var(--orange-soft);border-radius:10px;padding:10px 14px;font-size:14px;display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+.timeline{overflow-x:auto}
+.tl{display:grid;grid-template-columns:110px 1fr;gap:8px 12px;align-items:center;min-width:480px}
+.tl .seq{display:flex;gap:4px;flex-wrap:wrap}
+.tl .dot{font-family:var(--f-mono);font-size:11.5px;border-radius:5px;padding:2px 6px;background:var(--chip)}
+.tl .dot.bad{background:var(--bad-soft);color:var(--bad)} .tl .dot.warn{background:var(--warn-soft);color:var(--warn)}
+.grp{border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.grp-h{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--chip)}
+.grp-h .t{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.ing{display:grid;grid-template-columns:1fr auto;gap:4px 12px;padding:10px 14px;border-top:1px solid var(--line)}
+.ing .price{text-align:right;font-variant-numeric:tabular-nums;font-weight:600}
+.ing .price small{display:block;font-weight:400;color:var(--muted)}
+.grp.avoid{opacity:.6}
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:620px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:middle}
+th{font-size:12.5px;color:var(--muted);font-weight:500}
+td input{width:110px;text-align:right;font-variant-numeric:tabular-nums;padding:5px 8px}
+.status{font-size:12.5px;color:var(--muted)}
+details summary{cursor:pointer;color:var(--muted);font-size:14px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header>
+    <div>
+      <h1>감귤 <span>방제</span> 수첩</h1>
+      <p class="sub">과원 6곳 살포 기록 · 같은 성분/작용기작 연속 살포 점검 · 다른 기작 농약 추천</p>
+    </div>
+    <div class="yearsel"><label for="orch">과원</label><select id="orch"></select><label for="year">연도</label><select id="year"></select></div>
+  </header>
+
+  <div id="sampleBanner" class="banner" hidden>
+    <span>지금 보이는 기록은 <b>예시</b>입니다. 첫 살포 기록을 저장하면 예시는 사라지고 내 기록만 남습니다.</span>
+  </div>
+
+  <div class="summary" id="summary"></div>
+
+  <nav role="tablist">
+    <button role="tab" id="t-log" aria-selected="true" data-tab="log">살포 기록</button>
+    <button role="tab" id="t-check" aria-selected="false" data-tab="check">내성 점검</button>
+    <button role="tab" id="t-rec" aria-selected="false" data-tab="rec">대체 농약 추천</button>
+    <button role="tab" id="t-price" aria-selected="false" data-tab="price">성분·가격·설정</button>
+  </nav>
+
+  <!-- 살포 기록 -->
+  <section class="panel" id="p-log">
+    <form class="card" id="form">
+      <h2>살포 기록 추가</h2>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <span class="note">과원</span>
+        <div class="pestpick" id="f-orch"></div>
+      </div>
+      <div class="grid2">
+        <label class="f">살포일<input type="date" id="f-date" required></label>
+        <label class="f">상품명<input id="f-product" list="productList" autocomplete="off" placeholder="예: 산마루, 슈퍼펀치" required></label>
+      </div>
+      <datalist id="productList"></datalist>
+      <div id="resolved"></div>
+      <label class="f" id="codeBox" hidden>목록에 없는 상품입니다. 병 앞면의 작용기작 표시를 적으면 점검됩니다 (선택)<input id="f-code" placeholder="예: 21A"></label>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <span class="note">방제 대상 (여러 개 선택 가능)</span>
+        <div class="pestpick" id="f-pests"></div>
+      </div>
+      <div class="alerts" id="preview"></div>
+      <div class="row"><button class="primary" type="submit" id="saveBtn">기록 저장</button><span class="status" id="saveStatus"></span></div>
+    </form>
+
+    <div class="card">
+      <div class="row" style="justify-content:space-between"><h2 id="logTitle">살포 기록</h2><span class="status" id="storeStatus">불러오는 중…</span></div>
+      <div id="records"></div>
+    </div>
+  </section>
+
+  <!-- 내성 점검 -->
+  <section class="panel" id="p-check" hidden>
+    <div class="card">
+      <h2>해충·병해별 작용기작 사용 순서</h2>
+      <p class="note">같은 대상에 같은 작용기작 그룹(번호가 같으면 같은 계열)이 이어지면 빨간색, 30일 이내 재사용이거나 한 해 2회 이상이면 노란색입니다.</p>
+      <div class="timeline"><div class="tl" id="timeline"></div></div>
+    </div>
+    <div class="card">
+      <h2>점검 결과</h2>
+      <div class="alerts" id="issues"></div>
+    </div>
+  </section>
+
+  <!-- 추천 -->
+  <section class="panel" id="p-rec" hidden>
+    <div class="card">
+      <div class="row" style="justify-content:space-between">
+        <h2>다음 살포에 쓸 수 있는 다른 작용기작</h2>
+        <div class="row"><label class="f" style="flex-direction:row;align-items:center;gap:8px">대상<select id="recPest"></select></label>
+        <label class="f" style="flex-direction:row;align-items:center;gap:6px;color:var(--fg)"><input type="checkbox" id="onlyJ" checked>방제도감 수록 약제만</label></div>
+      </div>
+      <div class="alerts" id="recHead"></div>
+      <div id="recList" style="display:flex;flex-direction:column;gap:10px"></div>
+    </div>
+  </section>
+
+  <!-- 가격 -->
+  <section class="panel" id="p-price" hidden>
+    <div class="card">
+      <h2>성분·작용기작·참고 가격</h2>
+      <p class="note">가격은 공식 자료가 없어 <b>추정한 값</b>입니다. 농협·농약사에서 산 실제 가격으로 고치면 '입력가'로 표시되고 추천 화면에도 반영됩니다.</p>
+      <div class="tablewrap"><table><thead><tr><th>성분</th><th>코드</th><th>상품명(방제도감)</th><th>확인</th><th>대상</th><th>포장</th><th>가격(원)</th></tr></thead><tbody id="priceBody"></tbody></table></div>
+      <div class="row"><button type="button" class="ghost small" id="resetPrices">입력한 가격 모두 지우기</button><span class="status" id="priceStatus"></span></div>
+    </div>
+    <div class="card">
+      <h2>자료 출처와 표시 기준</h2>
+      <ul class="note" style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px">
+        <li><span class="src J">방제도감 수록</span> 제주특별자치도농업기술원 <a href="https://agri.jeju.go.kr/files/board/%EB%B3%91%ED%95%B4%EC%B6%A9%EB%B0%A9%EC%A0%9C%EB%8F%84%EA%B0%90(%EC%B5%9C%EC%A2%85).pdf" target="_blank" rel="noopener">「농업인이 궁금해하는 감귤 병해충 방제도감」</a>에 감귤 방제 약제로 실린 성분입니다. 상품명도 이 자료를 따랐고, 일부 상품은 <a href="https://agri.jeju.go.kr/files/board/3b54e2ee-6fec-4fe1-b4fb-26943634a79c.pdf" target="_blank" rel="noopener">노지감귤 월별 병해충 방제기술</a> 자료에서 보완했습니다.</li>
+        <li><span class="src U">감귤 등록 미확인</span> 위 자료에서 감귤용으로 찾지 못한 성분입니다. 쓰기 전에 반드시 등록 여부를 확인하세요.</li>
+        <li>방제도감에는 발행 연도가 없어 최신 등록과 다를 수 있습니다. 희석배수, 수확 전 사용 시기·횟수는 제품 라벨과 <a href="https://psis.rda.go.kr/psis/agc/res/agchmRegistStusLst.ps?menuId=PS00263" target="_blank" rel="noopener">농약안전정보시스템 농약안전사용기준</a>에서 확인하세요. 이 시스템은 자동 조회를 막고 있어 직접 대조하지 못했습니다.</li>
+        <li>작용기작 코드(IRAC·FRAC)는 국제 분류 기준을 따랐습니다. 방제도감에는 계통명만 있어 코드는 계통명과 맞춰 붙였습니다. 번호가 같으면 알파벳이 달라도 같은 계열로 봅니다.</li>
+        <li>FRAC M(다점 작용) 계열과 기계유는 저항성 위험이 낮아 연속 살포 경고에서 제외합니다.</li>
+        <li>귤굴나방·가루이는 방제도감에 독립된 약제표가 없어 추천 후보가 모두 미확인입니다.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h2>과원 이름</h2>
+      <p class="note">알아보기 쉬운 이름으로 바꿔 두면 기록과 점검 화면에 그 이름이 나옵니다.</p>
+      <div class="grid2" id="orchNames"></div>
+      <span class="status" id="orchStatus"></span>
+    </div>
+    <div class="card">
+      <details><summary>기록 백업 · 복원</summary>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-top:10px">
+          <p class="note" style="margin:0">아래 글자를 복사해 두면 기록을 옮기거나 되살릴 수 있습니다.</p>
+          <textarea id="backup" rows="6" aria-label="백업 데이터"></textarea>
+          <div class="row"><button type="button" class="small" id="copyBackup">백업 복사</button><button type="button" class="small" id="restoreBackup">붙여넣은 내용으로 복원</button><span class="status" id="backupStatus"></span></div>
+        </div>
+      </details>
+    </div>
+  </section>
+</div>
+
+<script>
+/* ---------- 기준 데이터 ---------- */
+const PESTS=[
+ {id:'mite',name:'귤응애',type:'해충'},{id:'rust',name:'녹응애',type:'해충'},{id:'scale',name:'깍지벌레',type:'해충'},
+ {id:'aphid',name:'진딧물',type:'해충'},{id:'thrips',name:'총채벌레',type:'해충'},{id:'miner',name:'귤굴나방',type:'해충'},
+ {id:'white',name:'가루이',type:'해충'},
+ {id:'melanose',name:'검은점무늬병',type:'병해'},{id:'scab',name:'더뎅이병',type:'병해'},{id:'canker',name:'궤양병',type:'병해'},{id:'gray',name:'잿빛곰팡이병',type:'병해'}];
+const PN=Object.fromEntries(PESTS.map(p=>[p.id,p.name]));
+const MOA={
+ 'IRAC 1':'아세틸콜린에스터레이스 저해 (유기인계)','IRAC 3':'나트륨 채널 조절 (피레스로이드계)','IRAC 4':'니코틴성 수용체 작용 (네오니코티노이드·설폭시민·뷰테놀라이드)',
+ 'IRAC 5':'니코틴성 수용체 알로스테릭 (스피노신계)','IRAC 6':'염화이온 채널 활성 (아버멕틴·밀베마이신계)','IRAC 7':'유약호르몬 모방',
+ 'IRAC 9':'현음기관 조절 (피리딘아조메틴)','IRAC 10':'응애 생장 저해','IRAC 13':'산화적 인산화 탈공역','IRAC 15':'키틴 생합성 저해 (나비목)',
+ 'IRAC 16':'키틴 생합성 저해 (매미목)','IRAC 20':'미토콘드리아 복합체 III 저해','IRAC 21':'미토콘드리아 복합체 I 저해 (METI)',
+ 'IRAC 23':'지질 생합성 저해 (테트론산·테트람산)','IRAC 25':'미토콘드리아 복합체 II 저해','IRAC 28':'라이아노딘 수용체 조절 (디아마이드계)',
+ 'IRAC 29':'현음기관 조절 (플로니카미드)','IRAC 19':'옥토파민 수용체 작용 (아미트라즈)','IRAC 12':'ATP 합성효소 저해','UN':'물리적 피막 (기계유)',
+ 'FRAC 1':'세포분열 저해 (벤지미다졸계)','FRAC 29':'산화적 인산화 탈공역 (플루아지남)','FRAC 3':'에르고스테롤 생합성 저해 (트리아졸계)','FRAC 7':'숙신산 탈수소효소 저해 (SDHI)','FRAC 9':'메티오닌 생합성 저해 (아닐리노피리미딘)',
+ 'FRAC 11':'호흡 복합체 III 저해 (스트로빌루린계)','FRAC 12':'신호전달 저해 (페닐피롤)','FRAC 17':'스테롤 C4 탈메틸 저해',
+ 'FRAC 24':'단백질 합성 저해 (가스가마이신)','FRAC 25':'단백질 합성 저해 (스트렙토마이신)','FRAC 41':'단백질 합성 저해 (테트라사이클린)',
+ 'FRAC M1':'다점 작용 (구리)','FRAC M3':'다점 작용 (디티오카바메이트)','FRAC M7':'다점 작용 (구아니딘)','FRAC M9':'다점 작용 (퀴논)'};
+// code: 라벨 표기, 가격: 대략적 소매 참고가(원)
+const INGS=[
+ // [id, 성분, 코드, 대표 상품명, 포장, 추정가, 대상, 출처(J=제주농업기술원 방제도감 수록, U=미확인), 비고]
+ ['oil','기계유','UN','기계유유제','18L',55000,['mite','scale'],'J',''],
+ ['acq','아세퀴노실','IRAC 20B','가네마이트','500ml',28000,['mite'],'J',''],
+ ['bfz','비페나제이트','IRAC 20D','아크라마이트','500ml',30000,['mite'],'J','에톡사졸·스피로메시펜과의 혼합제도 있음'],
+ ['tbp','테부펜피라드','IRAC 21A','피라니카','500ml',20000,['mite'],'J',''],
+ ['pdb','피리다벤','IRAC 21A','산마루','500g',18000,['mite','rust'],'J','녹응애·차먼지응애에도 수록'],
+ ['fnq','페나자퀸','IRAC 21A','보라매·응애단','500ml',20000,['mite'],'J','헥시티아족스 혼합제(응애도사)도 있음'],
+ ['spd','스피로디클로펜','IRAC 23','엔비도','500ml',30000,['mite','rust'],'J',''],
+ ['spm','스피로메시펜','IRAC 23','코드윈·지존','500ml',30000,['mite'],'J',''],
+ ['cyp','사이에노피라펜','IRAC 25A','쇼크·선캡·집중마크','500ml',32000,['mite'],'J',''],
+ ['etx','에톡사졸','IRAC 10B','주움','500ml',25000,['mite'],'J',''],
+ ['hxt','헥시티아족스','IRAC 10A','','500ml',22000,['mite'],'J','단제가 아닌 혼합제로 수록'],
+ ['amt','아미트라즈','IRAC 19','마이탁','500ml',18000,['mite'],'J','녹응애용으로도 안내됨'],
+ ['ppg','프로파자이트','IRAC 12C','오마이트','500g',18000,['mite'],'J',''],
+ ['mbm','밀베멕틴','IRAC 6','밀베노크','500ml',28000,['mite'],'J',''],
+ ['abm','아바멕틴','IRAC 6','올스타','500ml',18000,['mite','thrips'],'J','총채·깍지에는 설폭사플로르 혼합제(슈퍼펀치)로 수록'],
+ ['flz','플루아지남','FRAC 29','후론사이드','500g',18000,['rust'],'J','녹응애 방제용으로 수록'],
+ ['cfp','클로르페나피르','IRAC 13','섹큐어·렘페이지','500ml',22000,['thrips'],'J',''],
+ ['imi','이미다클로프리드','IRAC 4A','코니도','500ml',12000,['aphid','thrips'],'J',''],
+ ['acm','아세타미프리드','IRAC 4A','모스피란·젠토렌','500g',15000,['aphid','thrips'],'J',''],
+ ['dnt','디노테퓨란','IRAC 4A','오신·보스','500g',20000,['aphid','thrips','scale'],'J','깍지에는 뷰프로페진 혼합제(검객)로 수록'],
+ ['sfx','설폭사플로르','IRAC 4C','트랜스폼·스트레이트','500ml',25000,['aphid','scale','thrips'],'J',''],
+ ['bpf','뷰프로페진','IRAC 16','','500g',18000,['scale','thrips'],'J','디노테퓨란·아세타미프리드·설폭사플로르 혼합제로 수록'],
+ ['flo','플로니카미드','IRAC 29','세티스','250g',25000,['aphid'],'J',''],
+ ['spt','스피네토람','IRAC 5','','500ml',25000,['aphid'],'J','혼합제로 수록'],
+ ['sps','스피노사드','IRAC 5','부메랑','500ml',22000,['thrips'],'J',''],
+ ['lfn','루페뉴론','IRAC 15','매치','500ml',15000,['thrips'],'J',''],
+ ['fpx','펜피록시메이트','IRAC 21A','','500ml',22000,['mite'],'U',''],
+ ['cfm','사이플루메토펜','IRAC 25A','','500ml',30000,['mite'],'U',''],
+ ['stm','스피로테트라맷','IRAC 23','','500ml',35000,['scale','aphid','white'],'U',''],
+ ['mtd','메티다티온','IRAC 1B','','500ml',15000,['scale'],'U',''],
+ ['ppf','피리프록시펜','IRAC 7C','','500ml',25000,['scale','white'],'U',''],
+ ['pym','피메트로진','IRAC 9B','','500g',18000,['aphid','white'],'U',''],
+ ['fpd','플루피라디퓨론','IRAC 4D','','500ml',30000,['aphid','white'],'U',''],
+ ['emb','에마멕틴벤조에이트','IRAC 6','','500ml',15000,['thrips','miner'],'U',''],
+ ['cyt','시안트라닐리프롤','IRAC 28','','500ml',30000,['thrips','miner','white'],'U',''],
+ ['cat','클로란트라닐리프롤','IRAC 28','','500ml',30000,['miner'],'U',''],
+ ['bft','비펜트린','IRAC 3A','','500ml',12000,['thrips','aphid'],'U',''],
+ ['mcz','만코제브','FRAC M3','다이센엠-45','500g',10000,['melanose','rust'],'J','녹응애 억제용으로도 안내됨'],
+ ['ppn','프로피네브','FRAC M3','안트라콜','500g',10000,['melanose','scab'],'J',''],
+ ['mtr','메티람','FRAC M3','썬업·포리람','500g',12000,['melanose','scab'],'J',''],
+ ['dtn','디티아논','FRAC M9','델란','500g',15000,['melanose','scab'],'J',''],
+ ['pcs','피라클로스트로빈','FRAC 11','카브리오','500ml',25000,['melanose','scab','gray'],'J','보스칼리드 혼합제(벨리스플러스)도 있음'],
+ ['tfs','트리플록시스트로빈','FRAC 11','프린트','500ml',25000,['melanose','scab','gray'],'J',''],
+ ['krm','크레속심메틸','FRAC 11','스트로비','500ml',20000,['scab'],'J',''],
+ ['dfc','디페노코나졸','FRAC 3','푸르겐·로티플','500ml',20000,['scab'],'J',''],
+ ['tpm','티오파네이트메틸','FRAC 1','톱신엠','500g',12000,['scab'],'J',''],
+ ['cpd','시프로디닐','FRAC 9','유닉스','500g',22000,['scab','gray'],'J',''],
+ ['bsc','보스칼리드','FRAC 7','','500g',25000,['scab','gray'],'J','피라클로스트로빈 혼합제로 수록'],
+ ['imn','이미녹타딘','FRAC M7','삼진왕','500ml',20000,['gray'],'J',''],
+ ['fdx','플루디옥소닐','FRAC 12','사파이어','500ml',25000,['gray'],'J',''],
+ ['cuh','수산화구리','FRAC M1','코사이드·쿠퍼','500g',15000,['canker','scab'],'J','8월 고온기 약해 주의'],
+ ['stp','스트렙토마이신','FRAC 25','아그렙토·농용신·부라마이신','500g',15000,['canker'],'J','저항성 우려로 구리제 위주 권장'],
+ ['otc','옥시테트라사이클린','FRAC 41','','500g',15000,['canker'],'J','스트렙토마이신 혼합제로 수록'],
+ ['cus','염기성황산구리','FRAC M1','네오보르도·새빈나','500g',15000,['canker','scab'],'J','8월 고온기 약해 주의'],
+ ['cuo','코퍼옥시클로라이드','FRAC M1','','500g',15000,['canker'],'J','가스가마이신 혼합제(가스란)로 수록'],
+ ['ksg','가스가마이신','FRAC 24','','500g',15000,['canker'],'J','구리 혼합제(가스란)로 수록'],
+ ['fhx','펜헥사미드','FRAC 17','','500ml',25000,['gray'],'U','']
+].map(([id,name,code,product,unit,price,targets,src,note])=>({id,name,code,product,unit,price,targets,src,note}));
+const ING=Object.fromEntries(INGS.map(i=>[i.id,i]));
+
+function groupOf(code){ // 'IRAC 21A' -> 'IRAC 21', 'FRAC M3' -> 'FRAC M3'
+  code=(code||'').toUpperCase().replace(/\s+/g,' ').trim();
+  if(!code) return '';
+  if(code.startsWith('UN')) return 'UN';
+  const m=code.match(/^(IRAC|FRAC)?\s*(M?\d+)/);
+  if(!m) return code;
+  const sys=m[1]||(m[2].startsWith('M')?'FRAC':'IRAC');
+  return sys+' '+m[2];
+}
+const exempt=g=>!g||g==='UN'||/^FRAC M/.test(g);
+const shortCode=c=>c.replace('IRAC ','').replace('FRAC ','F');
+
+/* ---------- 상품명 → 성분 ---------- */
+// 방제도감에 실린 혼합제
+const MIX={'응애도사':['fnq','hxt'],'슈퍼펀치':['abm','sfx'],'검객':['bpf','dnt'],'바람탄':['acm','bpf'],'당찬':['acm','spt'],
+ '벨리스플러스':['bsc','pcs'],'아그리마이신':['otc','stp'],'가스란':['cuo','ksg'],'보르도액':['cus']};
+const PRODUCTS={};
+INGS.forEach(i=>{ if(i.product) i.product.split('·').forEach(n=>{n=n.trim(); if(n) PRODUCTS[n]=[i.id];}); });
+Object.entries(MIX).forEach(([n,ids])=>PRODUCTS[n]=ids);
+const PNAMES=Object.keys(PRODUCTS).sort((a,b)=>b.length-a.length);
+const norm=s=>String(s||'').replace(/\s+/g,'').replace(/[()（）]/g,'');
+function resolveProduct(name){ const n=norm(name); if(!n) return null;
+  const hit=PNAMES.find(k=>n.startsWith(norm(k))); return hit? {name:hit,ids:PRODUCTS[hit]} : null; }
+function mixesOf(id){return Object.entries(MIX).filter(([n,ids])=>ids.includes(id)&&ids.length>1).map(([n])=>n);}
+
+/* ---------- 상태 ---------- */
+const ORCH=['1','2','3','4','5','6'];
+const SAMPLE=[
+ {id:'s1',date:'2026-04-20',orchard:'1',pests:['mite'],product:'산마루'},
+ {id:'s2',date:'2026-05-25',orchard:'1',pests:['aphid'],product:'코니도'},
+ {id:'s3',date:'2026-06-15',orchard:'1',pests:['mite'],product:'피라니카'},
+ {id:'s4',date:'2026-06-15',orchard:'2',pests:['melanose'],product:'다이센엠-45'},
+ {id:'s5',date:'2026-07-10',orchard:'2',pests:['scale','thrips'],product:'슈퍼펀치'},
+ {id:'s6',date:'2026-08-20',orchard:'2',pests:['mite'],product:'가네마이트'},
+ {id:'s7',date:'2026-09-15',orchard:'3',pests:['thrips'],product:'섹큐어'}];
+let real=[], prices={}, onames={}, loaded=false, store=null;
+const recs=()=> real.length? real : SAMPLE;
+const isSample=()=> !real.length;
+const oName=o=> o? (onames[o]||o+'과원') : '과원 미지정';
+
+function ingsOf(r){
+  if(Array.isArray(r.ings)&&r.ings.length) return r.ings.map(ingInfo);
+  const res=resolveProduct(r.product);
+  if(res) return res.ids.map(id=>ingInfo({id}));
+  if(r.code) return [ingInfo({name:(r.product||'')+' 성분',code:codeFromLabel(r.code)})];
+  return [];
+}
+function codeFromLabel(t){ // 라벨 표시 그대로 비교. 숫자형(예: 21A)은 IRAC로 맞춤
+  t=String(t||'').toUpperCase().replace(/\s+/g,'').trim(); if(!t) return '';
+  if(/^(IRAC|FRAC)/.test(t)) return t.replace(/^(IRAC|FRAC)/,'$1 ');
+  if(/^\d+[A-Z]?$/.test(t)) return 'IRAC '+t;
+  return t;
+}
+function ingInfo(x){
+  if(x.id && ING[x.id]) {const i=ING[x.id]; return {name:i.name,code:i.code,group:groupOf(i.code),id:i.id,src:i.src};}
+  return {name:x.name||'직접 입력',code:x.code||'',group:groupOf(x.code),id:'c:'+(x.name||''),src:'U'};
+}
+const priceOf=i=> prices[i.id]!=null? prices[i.id] : i.price;
+const yearOf=d=>+d.slice(0,4);
+const today=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');};
+const days=(a,b)=>Math.round((new Date(b)-new Date(a))/864e5);
+const won=n=>Number(n).toLocaleString('ko-KR')+'원';
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function sorted(list){return [...list].sort((a,b)=>a.date<b.date?-1:a.date>b.date?1:(a.created||0)-(b.created||0));}
+
+/* ---------- 점검 로직 (같은 과원 · 같은 대상 기준) ---------- */
+const WINDOW=30, MAXPERYEAR=2;
+function checkRecord(r,list){
+  const out=[];
+  const all=sorted(list).filter(x=>yearOf(x.date)===yearOf(r.date)&&(x.orchard||'')===(r.orchard||''));
+  const idx=all.findIndex(x=>x.id===r.id);
+  const prior= idx>=0? all.slice(0,idx) : all.filter(x=>x.date<=r.date);
+  const rIngs=ingsOf(r);
+  if(!rIngs.length) return [{lv:'warn',pest:r.pests[0],msg:`'${r.product}'의 성분을 몰라 점검하지 못했습니다. 병 앞면의 작용기작 표시를 기록에 넣어 주세요.`,unknown:true}];
+  for(const p of r.pests){
+    const prev=prior.filter(x=>x.pests.includes(p));
+    const last=prev[prev.length-1];
+    for(const ri of rIngs){
+      if(exempt(ri.group)) continue;
+      if(last && ingsOf(last).some(i=>i.group===ri.group)){
+        out.push({lv:'bad',pest:p,msg:`${PN[p]}: 직전 살포(${last.date} ${last.product||''})와 같은 작용기작 ${ri.group}입니다. ${ri.name}은(는) 연속으로 쓰지 마세요.`});
+      } else {
+        const near=prev.filter(x=>days(x.date,r.date)<=WINDOW && ingsOf(x).some(i=>i.group===ri.group));
+        if(near.length) out.push({lv:'warn',pest:p,msg:`${PN[p]}: ${days(near[near.length-1].date,r.date)}일 전(${near[near.length-1].product||''})에 같은 작용기작 ${ri.group}을 썼습니다.`});
+      }
+      const cnt=prev.filter(x=>ingsOf(x).some(i=>i.group===ri.group)).length+1;
+      if(cnt>MAXPERYEAR) out.push({lv:'warn',pest:p,msg:`${PN[p]}: 올해 이 과원에서 ${ri.group} 계열 ${cnt}번째 살포입니다. 한 해 ${MAXPERYEAR}회 이하를 권장합니다.`});
+      const sameIng=prev.filter(x=>ingsOf(x).some(i=>i.id===ri.id));
+      if(sameIng.length) out.push({lv:'warn',pest:p,msg:`${PN[p]}: 같은 성분 ${ri.name}을(를) 올해 ${sameIng.length+1}번째 사용합니다.`});
+    }
+  }
+  return out;
+}
+
+/* ---------- 화면 ---------- */
+const $=id=>document.getElementById(id);
+const curOrch=()=>$('orch').value||'all';
+function years(){const ys=new Set([new Date().getFullYear(),...recs().map(r=>yearOf(r.date))]);return [...ys].sort((a,b)=>b-a);}
+function curYear(){return +$('year').value||new Date().getFullYear();}
+const yearAll=()=>recs().filter(r=>yearOf(r.date)===curYear());
+const inOrch=r=>curOrch()==='all'||(r.orchard||'')===curOrch();
+function yearRecs(){return yearAll().filter(inOrch);}
+
+function renderSelectors(){
+  const keepY=$('year').value; $('year').innerHTML=years().map(y=>`<option>${y}</option>`).join('');
+  if(keepY && years().includes(+keepY)) $('year').value=keepY;
+  const keepO=$('orch').value||'all';
+  $('orch').innerHTML='<option value="all">전체</option>'+ORCH.map(o=>`<option value="${o}">${esc(oName(o))}</option>`).join('');
+  $('orch').value=keepO;
+  const sel=document.querySelector('#f-orch input:checked')?.value;
+  $('f-orch').innerHTML=ORCH.map(o=>`<label><input type="radio" name="orch" id="fo-${o}" value="${o}">${esc(oName(o))}</label>`).join('');
+  const want=sel||(curOrch()!=='all'?curOrch():'');
+  if(want) $('fo-'+want).checked=true;
+}
+function renderSummary(){
+  const list=yearRecs(); let bad=0,warn=0;
+  list.forEach(r=>{const c=checkRecord(r,yearAll()); if(c.some(x=>x.lv==='bad'))bad++; else if(c.length)warn++;});
+  const groups=new Set(); list.forEach(r=>ingsOf(r).forEach(i=>{if(!exempt(i.group))groups.add(i.group);}));
+  const scope=curOrch()==='all'?'전체 과원':oName(curOrch());
+  $('summary').innerHTML=`
+   <div class="stat"><b>${list.length}</b><small>${curYear()}년 ${esc(scope)} 살포</small></div>
+   <div class="stat"><b>${groups.size}</b><small>사용한 작용기작 그룹</small></div>
+   <div class="stat ${bad?'bad':''}"><b>${bad}</b><small>연속 살포(같은 기작)</small></div>
+   <div class="stat ${warn?'warn':''}"><b>${warn}</b><small>주의가 필요한 살포</small></div>`;
+  $('sampleBanner').hidden=!isSample()||!loaded;
+}
+function ingChips(r){const ii=ingsOf(r); return ii.length? ii.map(i=>`${esc(i.name)} <span class="code">${esc(i.code||'코드 없음')}</span>`).join(' + ') : '<span class="pill warn">성분 미확인</span>';}
+function renderRecords(){
+  const list=sorted(yearRecs()).reverse();
+  $('logTitle').textContent=`${curYear()}년 ${curOrch()==='all'?'전체 과원':oName(curOrch())} 살포 기록`+(isSample()?' (예시)':'');
+  if(!list.length){$('records').innerHTML='<p class="muted">아직 기록이 없습니다. 위에서 과원, 상품명, 방제 대상을 골라 첫 살포를 기록하세요.</p>';return;}
+  $('records').innerHTML=list.map(r=>{
+    const c=checkRecord(r,yearAll()); const lv=c.some(x=>x.lv==='bad')?'bad':c.length?'warn':'ok';
+    const label=lv==='bad'?'연속 기작':lv==='warn'?'주의':'양호';
+    const d=new Date(r.date); const wd='일월화수목금토'[d.getDay()];
+    return `<div class="rec">
+      <div class="date">${r.date.slice(5).replace('-','.')}<small>${wd}요일 · ${esc(oName(r.orchard))}</small></div>
+      <div class="body">
+        <div class="row"><span class="pill ${lv}">${label}</span><b>${esc(r.product||'상품명 없음')}</b><span class="muted">${r.pests.map(p=>esc(PN[p])).join(', ')}</span></div>
+        <div class="note">${ingChips(r)}</div>
+        ${c.length?`<div class="alerts">${c.map(x=>`<div class="alert ${x.lv}">${esc(x.msg)}</div>`).join('')}</div>`:''}
+      </div>
+      <div>${isSample()?'':`<button class="ghost small" data-del="${esc(r.id)}" aria-label="${esc(r.date)} 기록 삭제">삭제</button>`}</div>
+    </div>`;}).join('');
+}
+function renderCheck(){
+  const all=yearAll(); const list=sorted(yearRecs());
+  const rows=[]; const os=curOrch()==='all'?ORCH.concat(['']):[curOrch()];
+  os.forEach(o=>PESTS.forEach(p=>{const seq=list.filter(r=>(r.orchard||'')===o&&r.pests.includes(p.id)); if(seq.length) rows.push({o,p,seq});}));
+  if(!rows.length){$('timeline').innerHTML='<p class="muted" style="grid-column:1/-1">이 연도 기록이 없습니다.</p>';$('issues').innerHTML='';return;}
+  $('timeline').innerHTML=rows.map(({o,p,seq})=>`<div><b>${esc(p.name)}</b><div class="note">${esc(oName(o))}</div></div><div class="seq">${seq.map(r=>{
+      const c=checkRecord(r,all).filter(x=>x.pest===p.id); const lv=c.some(x=>x.lv==='bad')?'bad':c.length?'warn':'';
+      const codes=ingsOf(r).map(i=>shortCode(i.group||'?')).join('+')||'?';
+      return `<span class="dot ${lv}" title="${esc(r.date+' '+(r.product||''))}">${r.date.slice(5).replace('-','/')} ${esc(r.product||'')} ${esc(codes)}</span>`;}).join('<span class="muted">→</span>')}</div>`).join('');
+  const issues=[]; list.forEach(r=>checkRecord(r,all).forEach(x=>issues.push({...x,date:r.date,o:r.orchard})));
+  $('issues').innerHTML=issues.length? issues.map(x=>`<div class="alert ${x.lv}"><b>${x.date} · ${esc(oName(x.o))}</b> · ${esc(x.msg)}</div>`).join('') : '<div class="alert ok">같은 성분·작용기작이 연속되거나 몰린 살포가 없습니다.</div>';
+}
+function renderRec(){
+  const p=$('recPest').value; const o=curOrch();
+  const list=sorted(yearRecs().filter(r=>r.pests.includes(p)));
+  const scope=o==='all'?'전체 과원':oName(o);
+  const last=list[list.length-1]; const lastGroups=last?ingsOf(last).map(i=>i.group):[];
+  const tip=o==='all'?' 과원별로 보려면 맨 위에서 과원을 고르세요.':'';
+  $('recHead').innerHTML= last? `<div class="alert ${lastGroups.every(exempt)?'ok':'warn'}">${esc(scope)} ${esc(PN[p])} 최근 살포: <b>${last.date} ${esc(last.product||'')}</b> (${ingsOf(last).map(i=>esc(i.name)+' '+esc(i.group)).join(' + ')||'성분 미확인'}). 다음에는 아래 <b>추천</b> 그룹에서 고르세요.${tip}</div>`
+    : `<div class="alert ok">${curYear()}년 ${esc(scope)} ${esc(PN[p])} 살포 기록이 없습니다. 어떤 그룹이든 쓸 수 있지만 이후에는 그룹을 바꿔 가며 쓰세요.${tip}</div>`;
+  const onlyJ=$('onlyJ').checked;
+  const cands=INGS.filter(i=>i.targets.includes(p)&&(!onlyJ||i.src==='J')).sort((a,b)=>a.src<b.src?-1:a.src>b.src?1:0);
+  if(!cands.length){$('recList').innerHTML=`<div class="alert warn">${esc(PN[p])}에 대해 방제도감에서 감귤용으로 확인된 약제를 찾지 못했습니다. 농약안전정보시스템에서 '감귤'과 '${esc(PN[p])}'로 검색해 등록 약제를 확인하세요.${onlyJ?' 위 체크를 끄면 미확인 후보도 볼 수 있습니다.':''}</div>`;return;}
+  const groups={}; cands.forEach(i=>{const g=groupOf(i.code);(groups[g]=groups[g]||[]).push(i);});
+  const rows=Object.entries(groups).map(([g,ings])=>{
+    const usedR=list.filter(r=>ingsOf(r).some(i=>i.group===g)); const lastUse=usedR[usedR.length-1];
+    let st,rank;
+    if(exempt(g)){st=['info','저항성 위험 낮음 · 보조용'];rank=3;}
+    else if(lastGroups.includes(g)){st=['bad','직전 사용 · 피하세요'];rank=5;}
+    else if(!usedR.length){st=['ok','올해 미사용 · 추천'];rank=0;}
+    else if(usedR.length>=MAXPERYEAR){st=['warn',`올해 ${usedR.length}회 사용 · 자제`];rank=4;}
+    else if(days(lastUse.date,today())<=WINDOW){st=['warn',`${days(lastUse.date,today())}일 전 사용`];rank=2;}
+    else {st=['ok',`${lastUse.date.slice(5)} 사용 · 사용 가능`];rank=1;}
+    return {g,ings,st,rank,minP:Math.min(...ings.map(priceOf))};
+  }).sort((a,b)=>a.rank-b.rank||a.minP-b.minP);
+  $('recList').innerHTML=rows.map(r=>`<div class="grp ${r.rank===5?'avoid':''}">
+    <div class="grp-h"><div class="t"><span class="code">${esc(r.g)}</span><h3>${esc(MOA[r.g]||'')}</h3></div><span class="pill ${r.st[0]}">${r.st[1]}</span></div>
+    ${r.ings.map(i=>{const mx=mixesOf(i.id);
+      const prod=[i.product?esc(i.product):'',mx.length?'혼합제 '+mx.map(n=>esc(n)+'('+PRODUCTS[n].map(id=>esc(ING[id].name)).join('+')+')').join(', '):''].filter(Boolean).join(' · ')||'상품명 미확인';
+      return `<div class="ing"><div><b>${esc(i.name)}</b> <span class="code">${esc(i.code)}</span> <span class="src ${i.src}">${i.src==='J'?'방제도감 수록':'감귤 등록 미확인'}</span><div class="note">상품: ${prod} · 대상: ${i.targets.map(t=>esc(PN[t])).join(', ')}${i.note?' · '+esc(i.note):''}</div></div><div class="price">${won(priceOf(i))}<small>${esc(i.unit)} · ${prices[i.id]!=null?'입력가':'추정가'}</small></div></div>`;}).join('')}
+  </div>`).join('');
+}
+function renderPrices(){
+  $('priceBody').innerHTML=INGS.map(i=>{const mx=mixesOf(i.id);
+    return `<tr><td><b>${esc(i.name)}</b></td><td><span class="code">${esc(i.code)}</span></td><td>${esc([i.product,mx.length?'혼합: '+mx.join('·'):''].filter(Boolean).join(' / ')||'—')}</td><td><span class="src ${i.src}">${i.src==='J'?'수록':'미확인'}</span></td><td class="note">${i.targets.map(t=>esc(PN[t])).join(', ')}</td><td>${esc(i.unit)}</td><td><input id="pr-${i.id}" type="number" min="0" step="500" value="${priceOf(i)}" data-price="${i.id}" aria-label="${esc(i.name)} 가격"></td></tr>`;}).join('');
+  $('orchNames').innerHTML=ORCH.map(o=>`<label class="f">${o}번 과원<input id="on-${o}" data-oname="${o}" value="${esc(onames[o]||'')}" placeholder="${o}과원"></label>`).join('');
+}
+function renderResolved(){
+  const name=$('f-product').value.trim(); const res=resolveProduct(name);
+  $('codeBox').hidden=!name||!!res;
+  if(!name){$('resolved').innerHTML='';return;}
+  $('resolved').innerHTML= res? `<div class="alert ok">${esc(res.name)} → ${res.ids.map(id=>`${esc(ING[id].name)} <span class="code">${esc(ING[id].code)}</span>`).join(' + ')} <span class="src ${res.ids.every(id=>ING[id].src==='J')?'J':'U'}">${res.ids.every(id=>ING[id].src==='J')?'방제도감 수록':'감귤 등록 미확인'}</span></div>`
+    : `<div class="alert warn">'${esc(name)}'은(는) 목록에 없는 상품입니다. 그대로 저장할 수 있지만, 작용기작 표시를 적어야 연속 살포 점검이 됩니다.</div>`;
+}
+function renderPreview(){
+  const r=formRecord(); if(!r){$('preview').innerHTML='';return;}
+  const c=checkRecord(r,recs());
+  $('preview').innerHTML=c.length? '<div class="note">저장 전 점검 ('+esc(oName(r.orchard))+')</div>'+c.map(x=>`<div class="alert ${x.lv}">${esc(x.msg)}</div>`).join('')
+    : `<div class="alert ok">저장 전 점검: ${esc(oName(r.orchard))}에서 같은 대상에 성분·작용기작이 겹치지 않습니다.</div>`;
+}
+function renderAll(){renderSelectors();renderSummary();renderRecords();renderCheck();renderRec();renderResolved();renderPreview();}
+
+function formRecord(){
+  const orchard=document.querySelector('#f-orch input:checked')?.value;
+  const pests=[...document.querySelectorAll('#f-pests input:checked')].map(x=>x.value);
+  const product=$('f-product').value.trim();
+  if(!orchard||!pests.length||!product||!$('f-date').value) return null;
+  const r={id:'new',date:$('f-date').value,orchard,pests,product,created:Date.now()};
+  if(!resolveProduct(product)&&$('f-code').value.trim()) r.code=$('f-code').value.trim();
+  return r;
+}
+
+/* ---------- 저장소 ---------- */
+const LS='citrus-spray-v1';
+function lsLoad(){try{const d=JSON.parse(localStorage.getItem(LS)||'{}');real=d.records||[];prices=d.prices||{};onames=d.onames||{};}catch(e){}}
+function lsSave(){try{localStorage.setItem(LS,JSON.stringify({records:real,prices,onames}));}catch(e){}}
+async function initStore(){
+  let db=null,uid=null;
+  try{ db=await (window.claude?.use?.('db')??null); const user=db? await claude.use('user'):null; uid=user? await user.id():null; }catch(e){db=null;}
+  if(db&&uid){
+    const col=db.collection('data/users/'+uid);
+    store={
+      add:r=>col.doc(r.id).set({...r,kind:'spray'}),
+      del:id=>col.doc(id).delete(),
+      setPrices:p=>col.doc('prices').set({kind:'prices',map:p}),
+      setNames:n=>col.doc('orchards').set({kind:'orchards',names:n}),
+    };
+    const timer=setTimeout(()=>{if(!loaded){$('storeStatus').textContent='저장소 응답이 늦습니다. 잠시 후 다시 열어 보세요.';}},10000);
+    col.onSnapshot(snap=>{
+      clearTimeout(timer);
+      real=snap.docs.map(d=>d.data()).filter(d=>d&&d.kind==='spray').map(d=>({...d}));
+      const pd=snap.docs.find(d=>d.id==='prices'); prices=pd?{...(pd.data().map||{})}:{};
+      const od=snap.docs.find(d=>d.id==='orchards'); onames=od?{...(od.data().names||{})}:{};
+      loaded=true; $('storeStatus').textContent='내 계정에 저장됨'; renderAll();
+    },err=>{clearTimeout(timer);$('storeStatus').textContent='저장소를 읽지 못했습니다: '+(err.message||err.code);});
+  } else {
+    lsLoad(); loaded=true;
+    store={add:async r=>{real.push(r);lsSave();},del:async id=>{real=real.filter(r=>r.id!==id);lsSave();},
+      setPrices:async p=>{prices=p;lsSave();},setNames:async n=>{onames=n;lsSave();}};
+    $('storeStatus').textContent='이 브라우저에만 저장됨 · 백업 권장'; renderAll();
+  }
+}
+
+/* ---------- 이벤트 ---------- */
+function init(){
+  $('f-date').value=today();
+  $('f-pests').innerHTML=PESTS.map(p=>`<label><input type="checkbox" id="fp-${p.id}" value="${p.id}">${p.name}</label>`).join('');
+  $('productList').innerHTML=Object.keys(PRODUCTS).sort((a,b)=>a.localeCompare(b,'ko')).map(n=>`<option value="${esc(n)}">${esc(PRODUCTS[n].map(id=>ING[id].name).join('+'))}</option>`).join('');
+  $('recPest').innerHTML=PESTS.map(p=>`<option value="${p.id}">${p.name}</option>`).join('');
+  document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
+    document.querySelectorAll('nav button').forEach(x=>x.setAttribute('aria-selected',x===b));
+    ['log','check','rec','price'].forEach(t=>$('p-'+t).hidden=t!==b.dataset.tab);
+    if(b.dataset.tab==='price'){renderPrices();$('backup').value=JSON.stringify({records:real,prices,onames});}
+  });
+  const onForm=()=>{renderResolved();renderPreview();};
+  $('form').addEventListener('input',onForm);
+  $('form').addEventListener('change',()=>{onForm(); const p=document.querySelector('#f-pests input:checked'); if(p) $('recPest').value=p.value;});
+  $('form').addEventListener('submit',async e=>{
+    e.preventDefault(); const r=formRecord();
+    if(!r){$('saveStatus').textContent='과원, 살포일, 상품명, 방제 대상을 모두 넣어 주세요.';return;}
+    r.id='r'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+    $('saveBtn').disabled=true;
+    try{await store.add(r); $('saveStatus').textContent=`${oName(r.orchard)}에 저장했습니다.`;
+      $('year').value=String(yearOf(r.date));
+      $('f-product').value='';$('f-code').value='';document.querySelectorAll('#f-pests input').forEach(x=>x.checked=false);
+      renderAll();
+    }catch(err){$('saveStatus').textContent='저장하지 못했습니다: '+(err.message||err.code||'알 수 없는 오류');}
+    $('saveBtn').disabled=false;
+  });
+  $('records').addEventListener('click',async e=>{
+    const b=e.target.closest('[data-del]'); if(!b) return;
+    if(b.dataset.confirm!=='1'){b.dataset.confirm='1';b.textContent='삭제 확인';setTimeout(()=>{b.dataset.confirm='';b.textContent='삭제';},4000);return;}
+    try{await store.del(b.dataset.del); renderAll();}catch(err){b.textContent='실패';}
+  });
+  $('year').onchange=renderAll; $('orch').onchange=renderAll; $('recPest').onchange=renderRec; $('onlyJ').onchange=renderRec;
+  let pt; $('priceBody').addEventListener('input',e=>{
+    const id=e.target.dataset.price; if(!id) return; const v=+e.target.value;
+    const next={...prices}; if(v>=0&&e.target.value!=='') next[id]=v; prices=next;
+    clearTimeout(pt); pt=setTimeout(async()=>{try{await store.setPrices(prices);$('priceStatus').textContent='가격을 저장했습니다.';renderRec();}catch(err){$('priceStatus').textContent='가격 저장 실패';}},700);
+  });
+  let nt; $('orchNames').addEventListener('input',e=>{
+    const o=e.target.dataset.oname; if(!o) return; const next={...onames}; const v=e.target.value.trim();
+    if(v) next[o]=v; else delete next[o]; onames=next;
+    clearTimeout(nt); nt=setTimeout(async()=>{try{await store.setNames(onames);$('orchStatus').textContent='과원 이름을 저장했습니다.';renderSelectors();renderSummary();renderRecords();renderCheck();}catch(err){$('orchStatus').textContent='저장 실패';}},700);
+  });
+  $('resetPrices').onclick=async()=>{prices={};await store.setPrices({});renderPrices();renderRec();$('priceStatus').textContent='입력한 가격을 지웠습니다.';};
+  $('copyBackup').onclick=async()=>{$('backup').value=JSON.stringify({records:real,prices,onames});
+    try{await navigator.clipboard.writeText($('backup').value);$('backupStatus').textContent='복사했습니다.';}catch(e){$('backup').select();$('backupStatus').textContent='선택된 글자를 직접 복사하세요.';}};
+  $('restoreBackup').onclick=async()=>{
+    try{const d=JSON.parse($('backup').value); const have=new Set(real.map(r=>r.id)); let n=0;
+      for(const r of (d.records||[])){ if(r&&r.id&&r.date&&Array.isArray(r.pests)&&!have.has(r.id)){await store.add(r);n++;} }
+      if(d.prices) await store.setPrices({...prices,...d.prices});
+      if(d.onames) await store.setNames({...onames,...d.onames});
+      $('backupStatus').textContent=`기록 ${n}건을 복원했습니다.`; renderAll();
+    }catch(e){$('backupStatus').textContent='백업 형식이 올바르지 않습니다.';}
+  };
+  renderAll();
+  initStore();
+}
+init();
+</script>

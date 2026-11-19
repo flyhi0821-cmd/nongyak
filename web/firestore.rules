@@ -1,0 +1,26 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // 본인 설정(가격·과원 이름)
+    match /users/{uid} {
+      allow read, write: if request.auth != null && request.auth.uid == uid
+        && (request.resource == null || request.resource.data.keys().hasOnly(['prices', 'orchardNames']));
+
+      // 본인 살포 기록
+      match /records/{id} {
+        allow read, delete: if request.auth != null && request.auth.uid == uid;
+        allow create, update: if request.auth != null && request.auth.uid == uid
+          && request.resource.data.keys().hasOnly(['id', 'date', 'orchard', 'pests', 'product', 'code', 'created'])
+          && request.resource.data.date is string && request.resource.data.date.matches('^\\d{4}-\\d{2}-\\d{2}$')
+          && request.resource.data.pests is list && request.resource.data.pests.size() <= 20
+          && request.resource.data.product is string && request.resource.data.product.size() <= 100;
+      }
+    }
+
+    // 공용 기준 데이터: 로그인 사용자 읽기 전용, 쓰기는 서버(Admin SDK)만
+    match /pesticides/{id} { allow read: if request.auth != null; allow write: if false; }
+    match /pesticides_raw/{id} { allow read: if request.auth != null; allow write: if false; }
+    match /meta/{id} { allow read: if request.auth != null; allow write: if false; }
+  }
+}
