@@ -47,6 +47,28 @@ const en: Dict = {
     exit: "Leave demo",
   },
 
+  home: {
+    hello: "Good day",
+    guest: "Demo grower",
+    myOrchards: "My orchards",
+    seeAll: "See all",
+    allShort: "All",
+    recent: "Recent sprays",
+    viewCalendar: "Calendar",
+    sprays: (n) => `${n} spray${n === 1 ? "" : "s"}`,
+    groups: (n) => `${n} MoA`,
+    last: (d, p) => `Last ${d} · ${p}`,
+    none: "No sprays this year",
+    noRecent: "No sprays yet. Tap the + button to log your first one.",
+    heroUnit: "sprays",
+    heroScope: (y, s) => `${y} · ${s}`,
+    statBad: "Same MoA in a row",
+    statWarn: "Needs care",
+    tagGroups: (n) => `${n} MoA groups used`,
+    tagNext: (p) => `Next: ${p}`,
+  },
+  nav: { home: "Home", calendar: "Calendar", add: "Add record", check: "Check", rec: "Suggest", settings: "Settings", lang: "Change language", theme: "Change theme" },
+
   tabs: { log: "Spray log", check: "Resistance check", rec: "Alternatives", settings: "Ingredients & settings" },
 
   summary: {

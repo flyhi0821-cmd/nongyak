@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 200" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#cfe7c4"/><stop offset="1" stop-color="#8fbf83"/>
+    </linearGradient>
+    <radialGradient id="o" cx=".38" cy=".35" r=".7">
+      <stop offset="0" stop-color="#ffc062"/><stop offset=".55" stop-color="#f7922a"/><stop offset="1" stop-color="#d9670f"/>
+    </radialGradient>
+    <g id="leaf"><path d="M0 0 C18 -14 44 -12 58 0 C44 12 18 14 0 0Z" fill="#2f6b2c"/><path d="M2 0 L54 0" stroke="#4f8f45" stroke-width="2"/></g>
+  </defs>
+  <rect width="240" height="200" fill="url(#bg)"/>
+  <g opacity=".55">
+    <use href="#leaf" transform="translate(-10 30) rotate(-20)"/><use href="#leaf" transform="translate(170 20) rotate(25)"/>
+    <use href="#leaf" transform="translate(190 170) rotate(-30)"/><use href="#leaf" transform="translate(-6 160) rotate(15)"/>
+  </g>
+  <path d="M70 20 C100 40 120 50 150 48" stroke="#5b3d22" stroke-width="5" fill="none"/>
+  <use href="#leaf" transform="translate(118 46) rotate(-35)"/>
+  <use href="#leaf" transform="translate(96 40) rotate(-150)"/>
+  <circle cx="92" cy="112" r="46" fill="url(#o)"/>
+  <circle cx="160" cy="124" r="40" fill="url(#o)"/>
+  <circle cx="128" cy="78" r="34" fill="url(#o)"/>
+  <g fill="#fff" opacity=".35"><ellipse cx="78" cy="96" rx="10" ry="6"/><ellipse cx="148" cy="108" rx="9" ry="5"/><ellipse cx="118" cy="66" rx="8" ry="5"/></g>
+  <g fill="#b85a10" opacity=".25"><circle cx="100" cy="125" r="1.6"/><circle cx="110" cy="110" r="1.4"/><circle cx="170" cy="140" r="1.6"/><circle cx="140" cy="88" r="1.3"/></g>
+  <circle cx="128" cy="46" r="3" fill="#3c6e2c"/>
+</svg>

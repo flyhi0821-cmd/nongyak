@@ -16,7 +16,7 @@ function findApiProduct(products: AppState["products"], name: string) {
   return hit ? products[hit] : null;
 }
 
-export function LogTab({ app }: { app: AppState }) {
+export function LogTab({ app, formSignal = 0 }: { app: AppState; formSignal?: number }) {
   const { t, orch, setOrch, records, year, setYear, oName } = app;
   const [date, setDate] = useState(todayStr);
   const [selDay, setSelDay] = useState(todayStr);
@@ -24,6 +24,16 @@ export function LogTab({ app }: { app: AppState }) {
   const [view, setView] = useState<"cal" | "list">("cal");
   const formRef = useRef<HTMLFormElement>(null);
   const productRef = useRef<HTMLInputElement>(null);
+
+  // 하단 + 버튼: 기록 입력칸으로 이동
+  useEffect(() => {
+    if (!formSignal) return;
+    const id = setTimeout(() => {
+      formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      productRef.current?.focus({ preventScroll: true });
+    }, 50);
+    return () => clearTimeout(id);
+  }, [formSignal]);
 
   useEffect(() => {
     try {

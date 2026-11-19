@@ -45,6 +45,28 @@ const ko = {
     exit: "체험 끝내기",
   },
 
+  home: {
+    hello: "안녕하세요",
+    guest: "체험 중인 농부님",
+    myOrchards: "내 과원",
+    seeAll: "전체 보기",
+    allShort: "전체",
+    recent: "최근 살포",
+    viewCalendar: "달력 보기",
+    sprays: (n: number) => `살포 ${n}회`,
+    groups: (n: number) => `기작 ${n}종`,
+    last: (d: string, p: string) => `최근 ${d} · ${p}`,
+    none: "올해 살포 기록 없음",
+    noRecent: "아직 살포 기록이 없습니다. 가운데 + 버튼으로 첫 기록을 남기세요.",
+    heroUnit: "회 살포",
+    heroScope: (y: number, s: string) => `${y}년 · ${s}`,
+    statBad: "연속 기작",
+    statWarn: "주의 필요",
+    tagGroups: (n: number) => `작용기작 ${n}종 사용`,
+    tagNext: (p: string) => `다음 추천: ${p}`,
+  },
+  nav: { home: "홈", calendar: "달력", add: "기록 추가", check: "점검", rec: "추천", settings: "설정", lang: "언어 바꾸기", theme: "테마 바꾸기" },
+
   tabs: { log: "살포 기록", check: "내성 점검", rec: "대체 농약 추천", settings: "성분·가격·설정" },
 
   summary: {

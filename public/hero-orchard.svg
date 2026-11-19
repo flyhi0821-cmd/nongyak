@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#8ec5ec"/>
+      <stop offset=".55" stop-color="#cfe6f5"/>
+      <stop offset="1" stop-color="#eef6f2"/>
+    </linearGradient>
+    <linearGradient id="hillFar" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#9cc49a"/><stop offset="1" stop-color="#7fae7f"/>
+    </linearGradient>
+    <linearGradient id="hillMid" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#6fa065"/><stop offset="1" stop-color="#4f8449"/>
+    </linearGradient>
+    <linearGradient id="hillNear" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#4c8a43"/><stop offset="1" stop-color="#2f6a2f"/>
+    </linearGradient>
+    <radialGradient id="sun" cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#fff7d6"/><stop offset="1" stop-color="#fff7d6" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="soft"><feGaussianBlur stdDeviation="6"/></filter>
+    <g id="tree">
+      <ellipse cx="0" cy="6" rx="26" ry="6" fill="#244f22" opacity=".35"/>
+      <rect x="-3" y="-6" width="6" height="12" rx="2" fill="#5b3d22"/>
+      <circle cx="0" cy="-20" r="20" fill="#2f6b2c"/>
+      <circle cx="-11" cy="-13" r="13" fill="#3b7d35"/>
+      <circle cx="11" cy="-14" r="13" fill="#367632"/>
+      <circle cx="-6" cy="-26" r="4" fill="#f6912a"/>
+      <circle cx="8" cy="-22" r="4" fill="#f9a23a"/>
+      <circle cx="-12" cy="-14" r="3.6" fill="#f08a1f"/>
+      <circle cx="12" cy="-10" r="3.6" fill="#f6912a"/>
+      <circle cx="2" cy="-12" r="3.4" fill="#ffad45"/>
+    </g>
+  </defs>
+  <rect width="800" height="600" fill="url(#sky)"/>
+  <circle cx="640" cy="120" r="140" fill="url(#sun)"/>
+  <g fill="#fff" opacity=".9" filter="url(#soft)">
+    <ellipse cx="160" cy="110" rx="110" ry="34"/><ellipse cx="230" cy="95" rx="70" ry="30"/>
+    <ellipse cx="520" cy="70" rx="120" ry="28"/><ellipse cx="600" cy="60" rx="60" ry="24"/>
+    <ellipse cx="740" cy="180" rx="90" ry="22"/>
+  </g>
+  <!-- 한라산 실루엣 -->
+  <path d="M0 330 C120 300 230 250 400 215 C520 240 640 285 800 320 L800 600 L0 600Z" fill="#b9d3c6" opacity=".8"/>
+  <path d="M0 360 C150 330 300 320 420 335 C560 350 680 330 800 345 L800 600 L0 600Z" fill="url(#hillFar)"/>
+  <!-- 돌담 -->
+  <path d="M0 400 C200 385 420 392 800 380" stroke="#4b4f4a" stroke-width="6" fill="none" stroke-dasharray="10 4" opacity=".55"/>
+  <path d="M0 410 C180 395 400 400 800 395 L800 600 L0 600Z" fill="url(#hillMid)"/>
+  <g>
+    <use href="#tree" x="40" y="430" transform="scale(.9)"/>
+    <use href="#tree" x="120" y="428"/><use href="#tree" x="200" y="426"/><use href="#tree" x="280" y="425"/>
+    <use href="#tree" x="360" y="424"/><use href="#tree" x="440" y="424"/><use href="#tree" x="520" y="423"/>
+    <use href="#tree" x="600" y="422"/><use href="#tree" x="680" y="421"/><use href="#tree" x="760" y="420"/>
+  </g>
+  <path d="M0 470 C200 455 500 462 800 450 L800 600 L0 600Z" fill="url(#hillNear)"/>
+  <g transform="translate(0 70) scale(1.35)">
+    <use href="#tree" x="20" y="365"/><use href="#tree" x="110" y="362"/><use href="#tree" x="200" y="360"/>
+    <use href="#tree" x="290" y="358"/><use href="#tree" x="380" y="357"/><use href="#tree" x="470" y="356"/>
+    <use href="#tree" x="560" y="355"/>
+  </g>
+</svg>

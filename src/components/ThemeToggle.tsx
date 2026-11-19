@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useI18n } from "@/i18n/I18nProvider";
+import { IcAuto, IcMoon, IcSun } from "./Icons";
 
 type Mode = "system" | "light" | "dark";
 const KEY = "theme";
@@ -26,33 +27,42 @@ function readMode(): Mode {
   return t === "light" || t === "dark" ? t : "system";
 }
 
-export function ThemeToggle() {
-  const { t } = useI18n();
+function useThemeMode() {
   const [mode, setMode] = useState<Mode>("system");
-  // 서버 렌더 값과 맞춘 뒤 실제 값으로 바꾼다(hydration 불일치 방지)
   useEffect(() => {
-    // 언어 전환처럼 루트 레이아웃이 바뀌면 <html> 이 새로 그려지므로 다시 적용
+    // 루트 레이아웃이 다시 그려져도 저장된 값을 다시 적용
     const m = readMode();
     apply(m);
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setMode(m);
   }, []);
+  return [mode, (m: Mode) => { apply(m); setMode(m); }] as const;
+}
+
+/** 설정 화면용: 시스템 / 라이트 / 다크 */
+export function ThemeToggle() {
+  const { t } = useI18n();
+  const [mode, set] = useThemeMode();
   const opts: Mode[] = ["system", "light", "dark"];
   return (
     <div className="seg" role="group" aria-label={t.theme.label}>
       {opts.map((m) => (
-        <button
-          key={m}
-          type="button"
-          aria-pressed={mode === m}
-          onClick={() => {
-            apply(m);
-            setMode(m);
-          }}
-        >
+        <button key={m} type="button" aria-pressed={mode === m} onClick={() => set(m)}>
           {t.theme[m]}
         </button>
       ))}
     </div>
+  );
+}
+
+/** 상단 둥근 버튼: 누를 때마다 시스템 → 라이트 → 다크 */
+export function ThemeCycleButton() {
+  const { t } = useI18n();
+  const [mode, set] = useThemeMode();
+  const next: Record<Mode, Mode> = { system: "light", light: "dark", dark: "system" };
+  return (
+    <button type="button" className="iconbtn" onClick={() => set(next[mode])} aria-label={`${t.nav.theme}: ${t.theme[mode]}`} title={t.theme[mode]}>
+      {mode === "light" ? <IcSun size={20} /> : mode === "dark" ? <IcMoon size={20} /> : <IcAuto size={20} />}
+    </button>
   );
 }
