@@ -1,5 +1,5 @@
 "use client";
-import { onAuthStateChanged, signInWithPopup, signOut as fbSignOut, type User } from "firebase/auth";
+import { onAuthStateChanged, signInWithPopup, signInWithRedirect, signOut as fbSignOut, type User } from "firebase/auth";
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import { firebaseAuth, firebaseConfigured, googleProvider } from "@/lib/firebase/client";
 
@@ -31,7 +31,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     loading,
     configured: firebaseConfigured,
     signIn: async () => {
-      await signInWithPopup(firebaseAuth(), googleProvider());
+      try {
+        await signInWithPopup(firebaseAuth(), googleProvider());
+      } catch (e) {
+        const code = (e as { code?: string }).code;
+        // 팝업이 막히면(일부 모바일·인앱 브라우저) 페이지 이동 방식으로 다시 시도
+        if (code === "auth/popup-blocked" || code === "auth/operation-not-supported-in-this-environment") {
+          await signInWithRedirect(firebaseAuth(), googleProvider());
+          return;
+        }
+        // 사용자가 창을 닫은 경우는 오류로 보여주지 않는다
+        if (code === "auth/popup-closed-by-user" || code === "auth/cancelled-popup-request") return;
+        throw e;
+      }
     },
     signOut: () => fbSignOut(firebaseAuth()),
   };
