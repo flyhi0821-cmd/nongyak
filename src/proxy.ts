@@ -1,23 +1,18 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { DEFAULT_LOCALE, LOCALES } from "@/i18n";
 
-/** 경로에 언어가 없으면 쿠키 → Accept-Language → 기본(ko) 순으로 골라 리다이렉트 */
-function pickLocale(req: NextRequest): string {
-  const saved = req.cookies.get("lang")?.value;
-  if (saved && (LOCALES as readonly string[]).includes(saved)) return saved;
-  const accept = req.headers.get("accept-language") || "";
-  for (const part of accept.split(",")) {
-    const base = part.split(";")[0].trim().toLowerCase().split("-")[0];
-    if ((LOCALES as readonly string[]).includes(base)) return base;
-  }
-  return DEFAULT_LOCALE;
-}
-
+/**
+ * 경로에 언어가 없으면 한국어(기본)로 보낸다.
+ * 사용자가 화면에서 직접 언어를 바꾼 적이 있을 때(lang 쿠키)만 그 언어로 보낸다.
+ * 브라우저 언어 설정(Accept-Language)은 보지 않는다.
+ */
 export function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
   const has = LOCALES.some((l) => pathname === `/${l}` || pathname.startsWith(`/${l}/`));
   if (has) return;
-  req.nextUrl.pathname = `/${pickLocale(req)}${pathname === "/" ? "" : pathname}`;
+  const saved = req.cookies.get("lang")?.value;
+  const lang = saved && (LOCALES as readonly string[]).includes(saved) ? saved : DEFAULT_LOCALE;
+  req.nextUrl.pathname = `/${lang}${pathname === "/" ? "" : pathname}`;
   return NextResponse.redirect(req.nextUrl);
 }
 
