@@ -35,7 +35,7 @@ const en: Dict = {
     heroTitle: "Log every spray and stop back-to-back use of the same mode of action",
     heroBody: "Record sprays for up to six orchards on a calendar. You get an instant warning when the same IRAC/FRAC group is used twice in a row or again within 30 days, plus suggestions for a different group next time.",
     heroPoints: ["Sign in with Google and see the same log on phone and PC", "Works offline in the orchard and syncs when back online", "한국어 · English"],
-    notConfigured: "Firebase is not configured yet. Put your Firebase web app config in web/.env.local and restart.",
+    notConfigured: "Firebase is not configured yet. Put your Firebase web app config in .env.local and restart.",
     error: (m) => `Could not sign in: ${m}`,
   },
 

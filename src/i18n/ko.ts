@@ -33,7 +33,7 @@ const ko = {
     heroTitle: "살포 기록을 남기면, 같은 기작 연속 살포를 미리 막아 줍니다",
     heroBody: "과원 6곳의 살포를 달력에 적고, 같은 작용기작(IRAC·FRAC)을 이어 쓰거나 30일 안에 다시 쓰면 바로 알려 줍니다. 다음 살포에 쓸 다른 기작 약제도 추천합니다.",
     heroPoints: ["Google 계정으로 로그인하면 휴대폰·PC 어디서든 같은 기록", "통신이 끊긴 과원에서도 기록, 연결되면 자동 저장", "한국어 · English"],
-    notConfigured: "Firebase 설정이 아직 없습니다. web/.env.local 에 Firebase 웹 앱 설정값을 넣고 다시 실행하세요.",
+    notConfigured: "Firebase 설정이 아직 없습니다. .env.local 에 Firebase 웹 앱 설정값을 넣고 다시 실행하세요.",
     error: (m: string) => `로그인하지 못했습니다: ${m}`,
   },
 

@@ -20,5 +20,8 @@ Next.js 16 + Firebase(Google 로그인·Firestore) + Vercel. 한국어/English, 
 Firebase 설정 없이도 첫 화면의 "로그인 없이 체험하기"로 모든 기능을 써 볼 수 있습니다(이 브라우저에만 저장).
 
 ## Vercel 배포
-GitHub 저장소 연결 → Root Directory 를 `web` 으로 → `.env.example` 의 변수를 Environment Variables 에 입력.
+GitHub main 에 push 하면 Vercel 이 자동 배포합니다(저장소 최상위가 Next 앱). `.env.example` 의 변수를 Environment Variables 에 입력.
 Firebase Authentication → 승인된 도메인에 Vercel 도메인 추가.
+
+## 이전 버전
+`legacy/` 에 단일 HTML 수첩(감귤방제수첩.html)과 백업본이 있습니다.
