@@ -65,6 +65,11 @@ const ko = {
     tagGroups: (n: number) => `작용기작 ${n}종 사용`,
     tagNext: (p: string) => `다음 추천: ${p}`,
   },
+  errors: {
+    permission: "저장소 권한이 없어 기록을 불러오지 못했습니다. Firebase 콘솔에서 Firestore 데이터베이스를 만들고 보안 규칙(firestore.rules)을 게시해야 합니다.",
+    offline: "인터넷 연결이 없어 저장소에 연결하지 못했습니다. 연결되면 자동으로 다시 시도합니다.",
+    other: (m: string) => `저장소 오류: ${m}`,
+  },
   nav: { home: "홈", calendar: "달력", add: "기록 추가", check: "점검", rec: "추천", settings: "설정", lang: "언어 바꾸기", theme: "테마 바꾸기" },
 
   tabs: { log: "살포 기록", check: "내성 점검", rec: "대체 농약 추천", settings: "성분·가격·설정" },

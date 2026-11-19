@@ -132,12 +132,21 @@ function Workspace({ ds, onExitDemo }: { ds: DataSource; onExitDemo?: () => void
   const [year, setYear] = useState(() => new Date().getFullYear());
 
   useEffect(() => {
-    const onErr = (e: Error) => setErr(e.message);
+    // 오류가 나도 '불러오는 중'에 멈추지 않게 화면은 연다
+    const onErr = (e: Error) => {
+      const code = (e as { code?: string }).code || "";
+      setErr(
+        code === "permission-denied" ? t.errors.permission
+          : code === "unavailable" ? t.errors.offline
+          : t.errors.other(e.message),
+      );
+      setLoaded(true);
+    };
     const u1 = ds.watchRecords((r) => { setRecords(r); setLoaded(true); }, onErr);
     const u2 = ds.watchSettings(setSettings, onErr);
     ds.loadProducts().then((list) => setProducts(Object.fromEntries(list.map((p) => [p.brand, p]))));
     return () => { u1(); u2(); };
-  }, [ds]);
+  }, [ds, t]);
 
   const setTab = (k: Tab) => { setTabState(k); window.scrollTo({ top: 0 }); };
   const setOrch = (o: string) => {

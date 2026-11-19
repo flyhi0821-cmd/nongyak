@@ -67,6 +67,11 @@ const en: Dict = {
     tagGroups: (n) => `${n} MoA groups used`,
     tagNext: (p) => `Next: ${p}`,
   },
+  errors: {
+    permission: "No permission to read your records. Create the Firestore database and publish the security rules (firestore.rules) in the Firebase console.",
+    offline: "Could not reach the database (offline). It will retry when you are back online.",
+    other: (m) => `Database error: ${m}`,
+  },
   nav: { home: "Home", calendar: "Calendar", add: "Add record", check: "Check", rec: "Suggest", settings: "Settings", lang: "Change language", theme: "Change theme" },
 
   tabs: { log: "Spray log", check: "Resistance check", rec: "Alternatives", settings: "Ingredients & settings" },
